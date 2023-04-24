@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "code"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+nltk = "^3.8.1"
+tqdm = "^4.65.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
