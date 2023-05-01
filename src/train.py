@@ -44,7 +44,7 @@ def train(train_reader, model_dir):
 	multinominal_NB = [MultinomialNB()]*6
 	for i,gnb in tqdm(enumerate(multinominal_NB), total=len(multinominal_NB), desc='Fitting models'):
 		gnb.fit(doc_term_mat, [x[i+2] for x in train_reader])
-	return multinominal_NB, vectorizer
+	return multinominal_NB
 
 
 if __name__ == '__main__':
@@ -60,6 +60,6 @@ if __name__ == '__main__':
 		# Fields in the train csv
 		# "id","comment_text","toxic","severe_toxic","obscene","threat","insult","identity_hate"
 		model_desc = ["toxic","severe_toxic","obscene","threat","insult","identity_hate"]
-		models, vectorizer = train(train_reader, args['model-dir'])
+		models = train(train_reader, args['model-dir'])
 		for model,desc in zip(models,model_desc):
 			dump(model, f"{args['model-dir']}/{desc}")
