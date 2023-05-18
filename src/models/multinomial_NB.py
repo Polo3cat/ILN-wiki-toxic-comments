@@ -1,6 +1,7 @@
 from tqdm import tqdm
 
 from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import roc_auc_score
 
 
 def train(document_term_matrix, target, target_names):
@@ -12,6 +13,14 @@ def train(document_term_matrix, target, target_names):
 
 def test(models, features, labels):
 	accuracies = {}
+	aucs = {}
 	for i,(m_name,model) in enumerate(models.items()):
-		accuracies[m_name] = model.score(features,[l[i] for l in labels])
-	return accuracies
+		y_true = [l[i] for l in labels]
+		accuracies[m_name] = model.score(features,y_true)
+		prob = model.predict_proba(features)[:,1]
+		aucs[m_name] = roc_auc_score(y_true, prob)
+	return {
+		"Accuracy": accuracies,
+		"MeanAcc": sum(accuracies.values())/len(models),
+		"AUC": aucs,
+		"MeanAUC": sum(aucs.values())/len(models)}
